@@ -1,14 +1,15 @@
 class Users::SessionsController < Devise::SessionsController
     respond_to :json
 
-    def create
-      {super: @token = current_token }
-    end
+    # def create
+    #   {super: @token = current_token }
+    # end
     
   
     private
   
     def respond_with(_resource, _opts = {})
+    @token = current_token
       render json: {
         message: 'You are logged in.',
         user: current_user,
@@ -17,9 +18,8 @@ class Users::SessionsController < Devise::SessionsController
     end
   
     def respond_to_on_destroy
-      log_out_success && return if current_user
+      current_user ? log_out_success : log_out_failure
   
-      log_out_failure
     end
   
     def log_out_success
