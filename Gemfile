@@ -15,6 +15,7 @@ gem "puma", "~> 5.0"
 gem 'devise'
 gem 'devise-jwt'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'cloudinary'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
