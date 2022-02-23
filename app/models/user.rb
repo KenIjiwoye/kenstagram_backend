@@ -3,5 +3,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
   :jwt_authenticatable,
-  jwt_revocation_strategy: JwtDenylist
+  jwt_revocation_strategy: JwtDenylist,
+  :authentication_keys => [:username, :email]
+
+  validates :email, uniqueness: true
+  validates :username, uniqueness: true
 end
