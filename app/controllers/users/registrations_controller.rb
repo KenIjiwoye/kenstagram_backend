@@ -10,13 +10,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   
     def register_success
+      @token = current_token
       render json: {
         message: 'Signed up sucessfully.',
-        user: current_user
+        user: current_user,
+        jwt: @token
       }, status: :ok
     end
   
     def register_failed
       render json: { message: 'Something went wrong.' }, status: :unprocessable_entity
+    end
+    def current_token
+      request.env['warden-jwt_auth.token']
     end
   end
