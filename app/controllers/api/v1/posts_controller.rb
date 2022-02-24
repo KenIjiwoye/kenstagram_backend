@@ -5,14 +5,14 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.all.order('created_at DESC')
 
-    render json: @posts
+    render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
   end
 
   # GET /posts/1
   def show
-    render json: @post
+    render json: PostSerializer.new(@post).serializable_hash.to_json, status: :ok
   end
 
   # POST /posts
@@ -20,7 +20,7 @@ class Api::V1::PostsController < ApplicationController
     @post = @user.posts.build(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: PostSerializer.new(@post).serializable_hash.to_json, status: :created, location: @api_v1_post
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class Api::V1::PostsController < ApplicationController
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      render json: @post
+      render json: PostSerializer.new(@post).serializable_hash.to_json
     else
       render json: @post.errors, status: :unprocessable_entity
     end
