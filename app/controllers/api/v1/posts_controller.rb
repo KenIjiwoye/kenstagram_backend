@@ -11,14 +11,15 @@ class Api::V1::PostsController < ApplicationController
           p.as_json(include: :user).merge({ image: url_for(p.image)})
       }
 
-      # TODO find a way to use jsonapi-serializer for the above code ^^^^^
-      
+      # TODO find a way to use jsonapi-serializer for Active Storage
+
     # render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
   end
 
   # GET /posts/1
   def show
-    render json: PostSerializer.new(@post).serializable_hash.to_json, status: :ok
+    # render json: PostSerializer.new(@post).serializable_hash.to_json(include: :user), status: :ok
+    render json: @post.as_json(include: :user).merge({ image: url_for(@post.image)})
   end
 
   # POST /posts
