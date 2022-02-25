@@ -1,13 +1,19 @@
 class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
-  before_action :set_user
   before_action :authenticate_user!
+  before_action :set_user
 
   # GET /posts
   def index
-    @posts = Post.all.order('created_at DESC')
+    # @posts = Post.all.order('created_at DESC')
+    @posts = Post.all.with_attached_image
+        render json: @posts.map { |p| 
+          p.as_json(include: :user).merge({ image: url_for(p.image)})
+      }
 
-    render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
+      # TODO find a way to use jsonapi-serializer for the above code ^^^^^
+      
+    # render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
   end
 
   # GET /posts/1
@@ -53,6 +59,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:caption, :user_id, :image)
+      params.permit(:caption, :user_id, :image)
     end
 end

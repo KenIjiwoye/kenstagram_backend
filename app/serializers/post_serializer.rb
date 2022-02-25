@@ -7,10 +7,14 @@ class PostSerializer
   belongs_to :user
 
   def image
-    if object.image.attached?
-      {
-        url: rails_blob_url(object.image)
-      }
-    end
+    return rails_blob_url(object.image) if object.image.attached?
+    # if object.image.attached?
+    #   {
+    #     url: rails_blob_url(object.image)
+    #   }
+    # end
   end
+  # def image
+  #   rails_blob_path(object.image, disposition: "attachment", only_path: true) if object.image.attached?
+  # end
 end
