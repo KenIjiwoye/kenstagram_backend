@@ -6,15 +6,23 @@ class Api::V1::PostsController < ApplicationController
   # GET /posts
   def index
     # @posts = Post.all.order('created_at DESC')
-    @posts = Post.all.with_attached_image
+    @posts = Post.all.with_attached_image.order('created_at DESC')
         render json: @posts.map { |p| 
-          p.as_json(include: :user).merge({ image: url_for(p.image)})
-      }
+            p.as_json(include: :user).merge({ image: url_for(p.image)})
+        }
 
-      # TODO find a way to use jsonapi-serializer for Active Storage
+      # TODO: find a way to use jsonapi-serializer for Active Storage
 
     # render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
   end
+
+  def get_current_user_posts
+    @posts = Post.all.with_attached_image.where("user_id = ?", @user).order('created_at DESC')
+    render json: @posts.map { |p| 
+        p.as_json(include: :user).merge({ image: url_for(p.image)})
+    }
+  end
+  
 
   # GET /posts/1
   def show
