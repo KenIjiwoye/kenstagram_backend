@@ -59,6 +59,22 @@ class Api::V1::PostsController < ApplicationController
     @post.destroy
   end
 
+  def like
+    @post = Post.find(params[:id])
+    Like.create(user_id: current_user.id, post_id: @post.id)
+    render json: @post.to_json(include: :likes), status: :ok
+  end
+  
+  def un_like
+    @post = Post.find(params[:id])
+    @like = @post.likes.where(user_id: @user.id)
+    if @like.present?
+      @like.first.destroy
+    end
+    render json: @post.to_json(include: :likes), status: :ok
+  end
+  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

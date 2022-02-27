@@ -9,5 +9,5 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :username, uniqueness: true
 
-  has_many :posts
+  has_many :posts, dependent: :destroy
 end
