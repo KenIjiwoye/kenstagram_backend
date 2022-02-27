@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend api server for Kenstagram(Instagram clone) using Ruby on Rails 7.
 
-Things you may want to cover:
+### Features that will be included:
+ - [x] Authentication w/JWT => (devise & devise-jwt) ✔️
+ - [x] Ability to sign in with username & password ✔️
+ - [x] Ability to create posts ✔️
+ - [x] Ability to like/unlike posts ✔️
+ - [ ] Ability to add comments
+ - [ ] Ability to follow/unfollow other users
 
-* Ruby version
+...more features to come, depending on my free time 😄 !
 
-* System dependencies
+Images are handled through Active Storage with Cloudinary configured 🖼️
 
-* Configuration
+The Frontend of this application will be a React-Native App 📱. The link to its repo is below:
 
-* Database creation
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
