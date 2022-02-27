@@ -13,7 +13,9 @@ class Api::V1::PostsController < ApplicationController
 
       # TODO: find a way to use jsonapi-serializer for Active Storage
 
-    # render json: PostSerializer.new(@posts).serializable_hash.to_json, status: :ok
+    #   options ={}
+    #   options[:include] = [:user, :'user.username']
+    # render json: PostSerializer.new(@posts, options).serializable_hash.to_json, status: :ok
   end
 
   def get_current_user_posts
@@ -26,8 +28,10 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    # render json: PostSerializer.new(@post).serializable_hash.to_json(include: :user), status: :ok
-    render json: @post.as_json(include: :user).merge({ image: url_for(@post.image)})
+    options ={}
+    options[:include] = [:user, :'user.username']
+    render json: PostSerializer.new(@post, options).serializable_hash.to_json(include: :user), status: :ok
+    # render json: @post.as_json(include: :user).merge({ image: url_for(@post.image)})
   end
 
   # POST /posts
